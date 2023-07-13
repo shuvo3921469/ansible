@@ -1,13 +1,14 @@
 ---
-- name: Prepare Apache web server with custom index file
+- name: Install Apache web server
   hosts: node
   become: yes
   become_user: root
   tasks:
-    - name: install apache
-	    yum: name=httpd state=latest
-	  
-	  - name: copy index file
-	    ansible.builtin.copy:
-	      src: /tmp/index.html
-		    dest: /var/www/html/
+    - name: Install apache
+      yum: name=httpd state=latest
+    - name: Copy index.html
+      ansible.builtin.copy:
+        src: /tmp/index.html
+        dest: /var/www/html/
+    - name: Start Web Server
+      service: name=httpd state=restarted enabled=yes
